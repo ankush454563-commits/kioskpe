@@ -11,7 +11,8 @@ import {
   AlertCircle, 
   LogOut, 
   Plus,
-  User
+  User,
+  XCircle
 } from 'lucide-react';
 
 interface ServiceRequest {
