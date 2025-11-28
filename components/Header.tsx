@@ -1,15 +1,46 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Menu, X, User, LogOut, LayoutDashboard } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    // Check login status on mount and when localStorage changes
+    const checkLogin = () => {
+      const token = localStorage.getItem('token');
+      setIsLoggedIn(!!token);
+    };
+
+    checkLogin();
+    window.addEventListener('storage', checkLogin);
+    
+    // Custom event for login updates within the same window
+    window.addEventListener('login-state-change', checkLogin);
+
+    return () => {
+      window.removeEventListener('storage', checkLogin);
+      window.removeEventListener('login-state-change', checkLogin);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    window.dispatchEvent(new Event('login-state-change'));
+    router.push('/login');
+  };
 
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Services', href: '/business-legal' },
+    { name: 'Track Status', href: '/track' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -25,7 +56,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex space-x-6">
+          <div className="hidden lg:flex space-x-6 items-center">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -37,13 +68,40 @@ export default function Header() {
             ))}
           </div>
 
-          <div className="hidden lg:block">
-            <Link
-              href="/contact"
-              className="bg-accent text-white px-6 py-2 rounded-full hover:bg-orange-600 transition-colors font-semibold"
-            >
-              Apply Now
-            </Link>
+          <div className="hidden lg:flex items-center space-x-4">
+            {isLoggedIn ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="flex items-center text-gray-700 hover:text-primary font-medium"
+                >
+                  <LayoutDashboard className="w-5 h-5 mr-1" />
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center text-red-600 hover:text-red-700 font-medium"
+                >
+                  <LogOut className="w-5 h-5 mr-1" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-primary font-semibold hover:text-primary/80"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className="bg-accent text-white px-6 py-2 rounded-full hover:bg-orange-600 transition-colors font-semibold"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -57,7 +115,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="lg:hidden mt-4 pb-4">
+          <div className="lg:hidden mt-4 pb-4 border-t pt-4">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -68,13 +126,48 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
-            <Link
-              href="/contact"
-              className="block mt-4 bg-accent text-white px-6 py-2 rounded-full text-center"
-              onClick={() => setIsOpen(false)}
-            >
-              Apply Now
-            </Link>
+            
+            <div className="mt-4 pt-4 border-t space-y-3">
+              {isLoggedIn ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center text-gray-700 hover:text-primary"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <LayoutDashboard className="w-5 h-5 mr-2" />
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center text-red-600 w-full text-left"
+                  >
+                    <LogOut className="w-5 h-5 mr-2" />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="block text-center text-primary font-semibold py-2 border border-primary rounded-full"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="block text-center bg-accent text-white font-semibold py-2 rounded-full mt-2"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         )}
       </nav>
