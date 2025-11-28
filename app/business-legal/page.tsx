@@ -151,23 +151,8 @@ export default function BusinessLegalPage() {
     },
   ];
 
-  const handleAppointment = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert('Appointment request submitted! We will confirm shortly.');
-    setAppointmentData({
-      name: '',
-      email: '',
-      phone: '',
-      service: '',
-      date: '',
-      time: '',
-      message: '',
-    });
-  };
-
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setUploadFile(e.target.files[0]);
       alert(`File "${e.target.files[0].name}" uploaded successfully!`);
     }
   };
