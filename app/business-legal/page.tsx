@@ -160,10 +160,12 @@ export default function BusinessLegalPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-secondary text-white py-16">
-        <div className="container mx-auto px-4 text-center">
+      <section className="bg-primary text-white py-16 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-20 -mt-20"></div>
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-secondary opacity-10 rounded-full -ml-10 -mb-10"></div>
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Business & Legal Services</h1>
-          <p className="text-xl max-w-3xl mx-auto">
+          <p className="text-xl max-w-3xl mx-auto text-blue-100">
             Complete business incorporation, compliance, and legal support for your growing business
           </p>
         </div>
@@ -190,10 +192,10 @@ export default function BusinessLegalPage() {
                   ))}
                 </ul>
                 <div className="border-t pt-4 mt-auto">
-                  <p className="text-accent font-bold text-xl mb-4">{service.pricing}</p>
+                  <p className="text-primary font-bold text-xl mb-4">{service.pricing}</p>
                   <button 
                     onClick={() => handleApply(service.title)}
-                    className="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center"
+                    className="w-full bg-secondary text-white py-2 rounded-lg hover:bg-amber-600 transition-colors flex items-center justify-center font-semibold"
                   >
                     Apply Now <ArrowRight className="ml-2 w-4 h-4" />
                   </button>

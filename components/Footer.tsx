@@ -8,21 +8,21 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-accent">LetsLegal</h3>
+            <h3 className="text-2xl font-bold mb-4 text-secondary">LetsLegal</h3>
             <p className="text-gray-400 mb-4">
               Your trusted partner for legal and business compliance. We simplify Company Registration, GST, ITR, and Legal Drafting.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-accent transition-colors">
+              <a href="#" className="text-gray-400 hover:text-secondary transition-colors">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-accent transition-colors">
+              <a href="#" className="text-gray-400 hover:text-secondary transition-colors">
                 <Twitter size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-accent transition-colors">
+              <a href="#" className="text-gray-400 hover:text-secondary transition-colors">
                 <Linkedin size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-accent transition-colors">
+              <a href="#" className="text-gray-400 hover:text-secondary transition-colors">
                 <Instagram size={20} />
               </a>
             </div>
@@ -32,10 +32,10 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link href="/" className="text-gray-400 hover:text-accent transition-colors">Home</Link></li>
-              <li><Link href="/business-legal" className="text-gray-400 hover:text-accent transition-colors">Services</Link></li>
-              <li><Link href="/contact" className="text-gray-400 hover:text-accent transition-colors">Contact Us</Link></li>
-              <li><Link href="/login" className="text-gray-400 hover:text-accent transition-colors">Login</Link></li>
+              <li><Link href="/" className="text-gray-400 hover:text-secondary transition-colors">Home</Link></li>
+              <li><Link href="/business-legal" className="text-gray-400 hover:text-secondary transition-colors">Services</Link></li>
+              <li><Link href="/contact" className="text-gray-400 hover:text-secondary transition-colors">Contact Us</Link></li>
+              <li><Link href="/login" className="text-gray-400 hover:text-secondary transition-colors">Login</Link></li>
             </ul>
           </div>
 
@@ -73,7 +73,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 pt-6 text-center text-gray-400">
-          <p>&copy; 2025 LetsLegal. All rights reserved. | <Link href="/privacy" className="hover:text-accent">Privacy Policy</Link> | <Link href="/terms" className="hover:text-accent">Terms of Service</Link></p>
+          <p>&copy; 2025 LetsLegal. All rights reserved. | <Link href="/privacy" className="hover:text-secondary">Privacy Policy</Link> | <Link href="/terms" className="hover:text-secondary">Terms of Service</Link></p>
         </div>
       </div>
     </footer>

@@ -96,7 +96,7 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/register"
-                  className="bg-accent text-white px-6 py-2 rounded-full hover:bg-orange-600 transition-colors font-semibold"
+                  className="bg-secondary text-white px-6 py-2 rounded-full hover:bg-amber-600 transition-colors font-semibold"
                 >
                   Register
                 </Link>

@@ -9,10 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#007BFF',
-        secondary: '#00B894',
-        accent: '#FFA500',
-        accentYellow: '#FDCB6E',
+        primary: '#1e3a8a', // Deep Corporate Blue
+        secondary: '#f59e0b', // Vibrant Amber/Yellow
+        accent: '#10b981', // Success Green
+        dark: '#111827', // Gray 900
+        light: '#f3f4f6', // Gray 100
       },
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
