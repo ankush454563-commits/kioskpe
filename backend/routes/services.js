@@ -4,6 +4,8 @@ const { body, validationResult } = require('express-validator');
 const ServiceRequest = require('../models/ServiceRequest');
 const { protect, authorize } = require('../middleware/auth');
 const { sendEmail } = require('../utils/email');
+const upload = require('../middleware/upload');
+const cloudinary = require('../utils/cloudinary');
 
 // POST /api/services/request - Submit a service request (public or authenticated)
 router.post('/request',
@@ -454,6 +456,61 @@ router.get('/stats', async (req, res) => {
       status: 'error',
       message: 'Failed to fetch statistics'
     });
+  }
+});
+
+// POST /api/services/request/:id/document - Upload document (Admin or Owner)
+router.post('/request/:id/document', protect, upload.single('document'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ status: 'error', message: 'No file uploaded' });
+    }
+
+    const serviceRequest = await ServiceRequest.findById(req.params.id);
+
+    if (!serviceRequest) {
+      return res.status(404).json({ status: 'error', message: 'Service request not found' });
+    }
+
+    // Check authorization (Admin or Owner)
+    if (req.user.role !== 'admin' && serviceRequest.userId.toString() !== req.user.id) {
+      return res.status(403).json({ status: 'error', message: 'Not authorized' });
+    }
+
+    // Upload to Cloudinary
+    const uploadToCloudinary = (buffer) => {
+      return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: 'letslegal_documents', resource_type: 'auto' },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+        uploadStream.end(buffer);
+      });
+    };
+
+    const result = await uploadToCloudinary(req.file.buffer);
+
+    // Add document to service request
+    serviceRequest.documents.push({
+      name: req.body.name || req.file.originalname,
+      url: result.secure_url,
+      uploadedAt: new Date()
+    });
+
+    await serviceRequest.save();
+
+    res.json({
+      status: 'success',
+      message: 'Document uploaded successfully',
+      data: serviceRequest
+    });
+
+  } catch (error) {
+    console.error('Document upload error:', error);
+    res.status(500).json({ status: 'error', message: 'Failed to upload document' });
   }
 });
 

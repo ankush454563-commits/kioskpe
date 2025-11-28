@@ -29,6 +29,13 @@ interface ServiceRequest {
     email: string;
   };
   priority?: string;
+  documents?: {
+    name: string;
+    url: string;
+    uploadedAt: string;
+  }[];
+  description?: string;
+  businessType?: string;
 }
 
 interface DashboardStats {
@@ -46,6 +53,9 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRequest, setSelectedRequest] = useState<ServiceRequest | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     checkAdminAuth();
@@ -120,6 +130,43 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       console.error('Status update error:', error);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, requestId: string) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('document', file);
+    
+    setUploading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://kioskpe-backend.onrender.com';
+      
+      const res = await fetch(`${apiUrl}/api/services/request/${requestId}/document`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+      
+      const data = await res.json();
+      if (data.status === 'success') {
+        // Update the selected request with new data
+        setSelectedRequest(data.data);
+        // Update the list
+        setRequests(requests.map(r => r._id === requestId ? data.data : r));
+      } else {
+        alert(data.message || 'Upload failed');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Upload failed');
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -338,7 +385,7 @@ export default function AdminDashboard() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {new Date(req.createdAt).toLocaleDateString()}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center space-x-2">
                         <select
                           value={req.status}
                           onChange={(e) => handleStatusUpdate(req._id, e.target.value)}
@@ -351,6 +398,16 @@ export default function AdminDashboard() {
                           <option value="completed">Completed</option>
                           <option value="rejected">Rejected</option>
                         </select>
+                        <button
+                          onClick={() => {
+                            setSelectedRequest(req);
+                            setIsModalOpen(true);
+                          }}
+                          className="p-2 text-gray-600 hover:text-primary hover:bg-gray-100 rounded-full"
+                          title="View Details"
+                        >
+                          <FileText className="w-5 h-5" />
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -359,6 +416,111 @@ export default function AdminDashboard() {
             </div>
           </div>
         )}
+
+      {/* Request Details Modal */}
+      {isModalOpen && selectedRequest && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b flex justify-between items-center">
+              <h3 className="text-xl font-bold text-gray-900">Request Details</h3>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <XCircle className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <div className="p-6 space-y-6">
+              {/* Basic Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-500">Service Type</p>
+                  <p className="font-medium">{selectedRequest.serviceType.replace(/-/g, ' ').toUpperCase()}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Status</p>
+                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(selectedRequest.status)}`}>
+                    {selectedRequest.status}
+                  </span>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Client Name</p>
+                  <p className="font-medium">{selectedRequest.userId?.name}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Email</p>
+                  <p className="font-medium">{selectedRequest.userId?.email}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Business Name</p>
+                  <p className="font-medium">{selectedRequest.businessName || 'N/A'}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Date</p>
+                  <p className="font-medium">{new Date(selectedRequest.createdAt).toLocaleString()}</p>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Description</p>
+                <div className="bg-gray-50 p-3 rounded-md text-sm text-gray-700">
+                  {selectedRequest.description || 'No description provided.'}
+                </div>
+              </div>
+
+              {/* Documents */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <p className="text-sm text-gray-500">Documents</p>
+                  <label className="cursor-pointer bg-primary text-white px-3 py-1 rounded-md text-sm hover:bg-primary/90 flex items-center">
+                    {uploading ? 'Uploading...' : 'Upload Document'}
+                    <input 
+                      type="file" 
+                      className="hidden" 
+                      onChange={(e) => handleFileUpload(e, selectedRequest._id)}
+                      disabled={uploading}
+                    />
+                  </label>
+                </div>
+                
+                {selectedRequest.documents && selectedRequest.documents.length > 0 ? (
+                  <ul className="border rounded-md divide-y">
+                    {selectedRequest.documents.map((doc, idx) => (
+                      <li key={idx} className="p-3 flex justify-between items-center hover:bg-gray-50">
+                        <div className="flex items-center">
+                          <FileText className="w-4 h-4 text-gray-400 mr-2" />
+                          <span className="text-sm text-gray-700">{doc.name}</span>
+                        </div>
+                        <a 
+                          href={doc.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-primary text-sm hover:underline"
+                        >
+                          View
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-gray-400 italic">No documents uploaded yet.</p>
+                )}
+              </div>
+            </div>
+            
+            <div className="p-6 border-t bg-gray-50 flex justify-end">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       </main>
     </div>
   );
