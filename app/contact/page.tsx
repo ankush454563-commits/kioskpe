@@ -150,12 +150,10 @@ export default function ContactPage() {
                     >
                       <option value="">Select subject</option>
                       <option value="general">General Inquiry</option>
-                      <option value="financial">Financial Services</option>
                       <option value="legal">Legal Services</option>
-                      <option value="digital">Digital Solutions</option>
-                      <option value="loans">Loans & Credit</option>
-                      <option value="laptops">Refurbished Laptops</option>
-                      <option value="support">Technical Support</option>
+                      <option value="business">Business Registration</option>
+                      <option value="compliance">Compliance & Tax</option>
+                      <option value="support">Support</option>
                     </select>
                   </div>
                   <div>
