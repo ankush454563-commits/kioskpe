@@ -1,4 +1,4 @@
-# Kioskpe - Digital & Legal Services Platform
+# LetsLegal - Digital & Legal Services Platform
 
 A comprehensive multi-service website built with Next.js, TypeScript, and Tailwind CSS.
 
@@ -193,13 +193,13 @@ vercel
 ## 📞 Support
 
 For any queries or support:
-- Email: info@kioskpe.com
+- Email: info@letslegal.co.in
 - Phone: +91 9876543210
 - WhatsApp: Click the floating button
 
 ## 📄 License
 
-All rights reserved © 2025 Kioskpe
+All rights reserved © 2025 LetsLegal
 
 ---
 

@@ -26,7 +26,7 @@ router.post('/inquiry',
       // Send auto-reply
       await sendEmail({
         to: req.body.email,
-        subject: 'We Received Your Message - Kioskpe',
+        subject: 'We Received Your Message - LetsLegal',
         html: `
           <h2>Thank You for Contacting Us</h2>
           <p>Dear ${req.body.name},</p>
@@ -34,7 +34,7 @@ router.post('/inquiry',
           <p><strong>Subject:</strong> ${req.body.subject}</p>
           <p><strong>Your Message:</strong></p>
           <p>${req.body.message}</p>
-          <p>Best regards,<br>Kioskpe Team</p>
+          <p>Best regards,<br>LetsLegal Team</p>
         `
       });
 

@@ -5,8 +5,8 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
-  title: "Kioskpe - One Platform for All Digital & Legal Services",
-  description: "AePS, DMT, Legal Services, Business Loans, Digital Solutions and more",
+  title: "LetsLegal - Your Trusted Partner for Legal & Business Services",
+  description: "Company Registration, GST, ITR, Legal Drafting, and Compliance Services made easy.",
 };
 
 export default function RootLayout({

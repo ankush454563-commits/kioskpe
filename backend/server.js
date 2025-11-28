@@ -44,7 +44,7 @@ app.use('/api/contact', contactRoutes);
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'success',
-    message: 'Kioskpe API is running',
+    message: 'LetsLegal API is running',
     timestamp: new Date().toISOString(),
     mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
   });
@@ -53,7 +53,7 @@ app.get('/api/health', (req, res) => {
 // Root Route
 app.get('/', (req, res) => {
   res.json({
-    message: 'Welcome to Kioskpe Law Firm API',
+    message: 'Welcome to LetsLegal Law Firm API',
     version: '2.0.0',
     description: 'Professional legal and business services',
     services: [

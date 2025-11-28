@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-accent">Kioskpe Law</h3>
+            <h3 className="text-2xl font-bold mb-4 text-accent">LetsLegal</h3>
             <p className="text-gray-400 mb-4">
               Your trusted partner for legal and business compliance. We simplify Company Registration, GST, ITR, and Legal Drafting.
             </p>
@@ -62,7 +62,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start">
                 <Mail size={18} className="mr-2 mt-1 flex-shrink-0" />
-                <span>info@kioskpe.com</span>
+                <span>info@letslegal.co.in</span>
               </li>
               <li className="flex items-start">
                 <MapPin size={18} className="mr-2 mt-1 flex-shrink-0" />
@@ -73,7 +73,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 pt-6 text-center text-gray-400">
-          <p>&copy; 2025 Kioskpe. All rights reserved. | <Link href="/privacy" className="hover:text-accent">Privacy Policy</Link> | <Link href="/terms" className="hover:text-accent">Terms of Service</Link></p>
+          <p>&copy; 2025 LetsLegal. All rights reserved. | <Link href="/privacy" className="hover:text-accent">Privacy Policy</Link> | <Link href="/terms" className="hover:text-accent">Terms of Service</Link></p>
         </div>
       </div>
     </footer>

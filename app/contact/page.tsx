@@ -73,8 +73,8 @@ export default function ContactPage() {
                 <Mail className="text-secondary" size={28} />
               </div>
               <h3 className="font-semibold text-lg mb-2">Email Us</h3>
-              <p className="text-gray-600">info@kioskpe.com</p>
-              <p className="text-gray-600">support@kioskpe.com</p>
+              <p className="text-gray-600">info@letslegal.co.in</p>
+              <p className="text-gray-600">support@letslegal.co.in</p>
             </div>
             <div className="bg-gradient-to-br from-accent/10 to-accent/5 p-6 rounded-lg text-center">
               <div className="bg-accent/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -195,7 +195,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="bg-gradient-to-br from-primary/5 to-secondary/5 p-6 rounded-lg">
-                <h3 className="text-xl font-bold mb-4">Why Contact Kioskpe?</h3>
+                <h3 className="text-xl font-bold mb-4">Why Contact LetsLegal?</h3>
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <span className="text-secondary mr-2 mt-1">✓</span>
@@ -230,7 +230,7 @@ export default function ContactPage() {
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
               <Users className="inline-block text-primary mb-4" size={48} />
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Join Kioskpe as Partner</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Join LetsLegal as Partner</h2>
               <p className="text-xl text-gray-600">
                 Become a part of India's fastest-growing digital services network
               </p>

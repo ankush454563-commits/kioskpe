@@ -1,7 +1,7 @@
 {
-  "name": "kioskpe-backend",
+  "name": "letslegal-backend",
   "version": "1.0.0",
-  "description": "Backend API for Kioskpe website",
+  "description": "Backend API for LetsLegal website",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
